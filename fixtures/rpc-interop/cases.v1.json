@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 1,
+  "sdk": "@stellar/stellar-sdk@17.2.1",
+  "recordedFixture": "examples/real-simulation/captured.json",
+  "description": "Version-tagged deterministic scenario matrix. Only referenced captured.json contains a previously recorded public Testnet result. Templated envelopes and SDK-built entries are synthetic.",
+  "cases": [
+    {
+      "id": "recorded-testnet-original",
+      "origin": "recorded-public-testnet",
+      "inputRef": "recordedFixture",
+      "expect": {
+        "outcome": "authorized",
+        "shape": "raw-rpc",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-raw-recorded-auth",
+      "origin": "synthetic-derived-from-recorded",
+      "input": {
+        "jsonrpc": "2.0",
+        "id": 201,
+        "result": {
+          "results": [
+            {
+              "auth": [
+                "$recorded"
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "raw-rpc",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-sdk-results",
+      "origin": "synthetic-derived-from-recorded",
+      "input": {
+        "results": [
+          {
+            "auth": [
+              "$recorded"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "sdk-parsed",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-sdk-flat",
+      "origin": "synthetic-derived-from-recorded",
+      "input": {
+        "auth": [
+          "$recorded"
+        ]
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "sdk-parsed",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-direct-auth-array",
+      "origin": "synthetic-derived-from-recorded",
+      "input": [
+        "$recorded"
+      ],
+      "expect": {
+        "outcome": "authorized",
+        "shape": "auth-array",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-nested-source-account",
+      "origin": "sdk-synthetic",
+      "input": {
+        "result": {
+          "results": [
+            {
+              "auth": [
+                "$nested"
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "raw-rpc",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "transfer"
+        ],
+        "nestedChildren": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "synthetic-two-credential-arms",
+      "origin": "sdk-synthetic",
+      "input": {
+        "results": [
+          {
+            "auth": [
+              "$legacy"
+            ]
+          },
+          {
+            "auth": [
+              "$addressV2"
+            ]
+          }
+        ]
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "sdk-parsed",
+        "count": 2,
+        "credentials": [
+          "sorobanCredentialsAddress",
+          "sorobanCredentialsAddressV2"
+        ],
+        "rootMethods": [
+          "permit",
+          "permit"
+        ],
+        "nestedChildren": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-delegated-credential",
+      "origin": "sdk-synthetic",
+      "input": {
+        "auth": [
+          "$delegated"
+        ]
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "sdk-parsed",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsAddressWithDelegates"
+        ],
+        "rootMethods": [
+          "permit"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "synthetic-source-account",
+      "origin": "sdk-synthetic",
+      "input": {
+        "auth": [
+          "$source"
+        ]
+      },
+      "expect": {
+        "outcome": "authorized",
+        "shape": "sdk-parsed",
+        "count": 1,
+        "credentials": [
+          "sorobanCredentialsSourceAccount"
+        ],
+        "rootMethods": [
+          "permit"
+        ],
+        "nestedChildren": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "explicit-empty-sdk-auth",
+      "origin": "synthetic",
+      "input": {
+        "auth": []
+      },
+      "expect": {
+        "outcome": "no-authorizations",
+        "shape": "sdk-parsed",
+        "count": 0,
+        "credentials": [],
+        "rootMethods": [],
+        "nestedChildren": []
+      }
+    },
+    {
+      "id": "explicit-empty-raw-results",
+      "origin": "synthetic",
+      "input": {
+        "jsonrpc": "2.0",
+        "id": 17,
+        "result": {
+          "results": []
+        }
+      },
+      "expect": {
+        "outcome": "no-authorizations",
+        "shape": "raw-rpc",
+        "count": 0,
+        "credentials": [],
+        "rootMethods": [],
+        "nestedChildren": []
+      }
+    },
+    {
+      "id": "explicit-empty-one-operation",
+      "origin": "synthetic",
+      "input": {
+        "result": {
+          "results": [
+            {
+              "auth": []
+            }
+          ]
+        }
+      },
+      "expect": {
+        "outcome": "no-authorizations",
+        "shape": "raw-rpc",
+        "count": 0,
+        "credentials": [],
+        "rootMethods": [],
+        "nestedChildren": []
+      }
+    },
+    {
+      "id": "explicit-empty-direct-array",
+      "origin": "synthetic",
+      "input": [],
+      "expect": {
+        "outcome": "no-authorizations",
+        "shape": "auth-array",
+        "count": 0,
+        "credentials": [],
+        "rootMethods": [],
+        "nestedChildren": []
+      }
+    },
+    {
+      "id": "json-rpc-error",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "jsonrpc": "2.0",
+        "id": 17,
+        "error": {
+          "code": -32602,
+          "message": "invalid parameters"
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "nested-result-error",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "result": {
+          "error": {
+            "code": -32001,
+            "message": "simulation failed"
+          }
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "missing-raw-auth-fields",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "jsonrpc": "2.0",
+        "id": 17,
+        "result": {
+          "latestLedger": 123
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "missing-sdk-auth-fields",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "latestLedger": 123
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "missing-operation-auth-array",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "result": {
+          "results": [
+            {
+              "retval": "AAAA"
+            }
+          ]
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "null-authorization-field",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "result": {
+          "auth": null
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "malformed-results-object",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "result": {
+          "results": {
+            "auth": []
+          }
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "ambiguous-auth-and-results",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "auth": [],
+        "results": []
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "wrapper-and-top-level-auth-conflict",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "result": {
+          "auth": []
+        },
+        "auth": []
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "error-with-present-auth",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "error": {
+          "code": -1
+        },
+        "result": {
+          "auth": [
+            "$recorded"
+          ]
+        }
+      },
+      "expect": {
+        "outcome": "reject-normalizer"
+      }
+    },
+    {
+      "id": "corrupted-xdr-must-not-pass-inspector",
+      "origin": "synthetic-adversarial",
+      "input": {
+        "auth": [
+          "AAAA"
+        ]
+      },
+      "expect": {
+        "outcome": "reject-inspector",
+        "shape": "sdk-parsed"
+      }
+    }
+  ]
+}
