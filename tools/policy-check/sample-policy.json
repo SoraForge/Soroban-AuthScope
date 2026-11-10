@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "allowedAuthorizers": [
+    {
+      "credential": "sorobanCredentialsSourceAccount",
+      "authorizer": "transaction source",
+      "delegates": []
+    }
+  ],
+  "allowedContracts": [
+    {
+      "address": "CADQOBYHA4DQOBYHA4DQOBYHA4DQOBYHA4DQOBYHA4DQOBYHA4DQP5KR",
+      "functions": ["approve", "transfer"]
+    }
+  ],
+  "blockUnapprovedAuthorizers": false,
+  "blockUnapprovedContracts": true,
+  "maxAddedOccurrencesPerPath": 1,
+  "allowRemovals": false
+}
